@@ -28,11 +28,20 @@
     <Filter Include="VisualGDB settings">
       <UniqueIdentifier>{3fd8ecbc-277b-40ff-9263-63e17170fbdd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header files\Init">
+      <UniqueIdentifier>{a7fb9c11-c729-4cd1-b393-388347a02aa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header files\Models">
+      <UniqueIdentifier>{b3fdc671-71e0-4ed7-a622-5207abef491c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Init">
+      <UniqueIdentifier>{746a60db-ab68-4139-a0e3-5e6a02fa8542}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Models">
+      <UniqueIdentifier>{05df54fd-b2d7-40c8-ae06-596f924118fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LEDBlink.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
     <ClCompile Include="system_stm32f10x.c">
       <Filter>Source files</Filter>
     </ClCompile>
@@ -201,5 +210,43 @@
     <None Include="stm32.xml">
       <Filter>VisualGDB settings</Filter>
     </None>
+    <ClCompile Include="PeriphInit.cpp">
+      <Filter>Source files\Init</Filter>
+    </ClCompile>
+    <ClCompile Include="Channel.cpp">
+      <Filter>Source files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="MusicDetector.cpp">
+      <Filter>Source files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="MyMath.cpp">
+      <Filter>Source files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="USART.cpp">
+      <Filter>Source files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PeriphInit.h">
+      <Filter>Header files\Init</Filter>
+    </ClInclude>
+    <ClInclude Include="Channel.h">
+      <Filter>Header files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="MusicDetector.h">
+      <Filter>Header files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="MyMath.h">
+      <Filter>Header files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="USART.h">
+      <Filter>Header files\Models</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
