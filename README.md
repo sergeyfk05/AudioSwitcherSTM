@@ -1,4 +1,4 @@
-Description
+<p style="font-family:verdana; size:14px;">Description<p><br>
 This project receives 4 or more audio channels to the input and outputs the first active audio channel in order of priority. 
 If there is at least one active channel, then the logic unit is supplied to the LED and AMP outputs, thereby including a relay 
 for the sound amplifier and an LED. The number of channels, sensitivity settings, pins can be configured in the settings. 
