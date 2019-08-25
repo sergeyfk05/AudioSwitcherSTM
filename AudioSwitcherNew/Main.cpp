@@ -21,20 +21,22 @@ int main()
 {
 	PeriphInit::InitPLL();
 	
+	//periph select
 	const uint32_t usingDMAPeriph = RCC_AHBPeriph_DMA1;
 	DMA_Channel_TypeDef* usingDMA = DMA1_Channel1;
 	const uint32_t usingADCPeriph = RCC_APB2Periph_ADC1;
 	ADC_TypeDef* usingADC = ADC1;
-	const uint8_t channelsCount = 2;
+	
+	const uint8_t channelsCount = 2; //channels count
 	Channel* channels[channelsCount];
 	volatile uint16_t ADCBuffer[channelsCount];
-	const uint8_t countOfIterationsForSwitch = 5;
-	const uint8_t ADCChannels[] = { ADC_Channel_3, ADC_Channel_4, ADC_Channel_5, ADC_Channel_6 };
-	const uint16_t rellayPins[] = { GPIO_Pin_7, GPIO_Pin_6, ADC_Channel_5, GPIO_Pin_15 };
-	const uint8_t ADCSampleTime = ADC_SampleTime_239Cycles5;
+	const uint8_t countOfIterationsForSwitch = 5; //count of detection needed for switch
+	const uint8_t ADCChannels[] = { ADC_Channel_3, ADC_Channel_4, ADC_Channel_5, ADC_Channel_6 }; //input channels
+	const uint16_t rellayPins[] = { GPIO_Pin_7, GPIO_Pin_6, ADC_Channel_5, GPIO_Pin_15 };//pins which commutation audio channel to output
+	const uint8_t ADCSampleTime = ADC_SampleTime_239Cycles5;//ADC sample time, bigger - better
 	//static uint16_t* MeasurementsBuffer[ChannelsCount];
-	const uint16_t measurementsDuration = 2000;  // in ms
-	const uint32_t measurementFrequencies[] = { 1000, 1000, 1000, 1000 };
+	const uint16_t measurementsDuration = 2000;  // how often channels are checked for sound(in ms)
+	const uint32_t measurementFrequencies[] = { 1000, 1000, 1000, 1000 }; //count of measurement in second of each channel
 	
 	
 #if DEBUG0 == 1 || DEBUG1 == 1 || DEBUG2 == 1 

@@ -1,0 +1,45 @@
+Partlist
+
+Exported from untitled.brd at 29.06.2019 17:38
+
+EAGLE Version 9.0.0 Copyright (c) 1988-2018 Autodesk, Inc.
+
+Assembly variant: 
+
+Part     Value          Package       Library             Position (mil)        Orientation
+
+BOOT0                   JP2           jumper              (3040 1650)           R270
+C1       10uF           0805          SparkFun-Capacitors (1747.00787 2574.64567) R270
+C2       0.1uF          0805          SparkFun-Capacitors (1836.77165 2575.03937) R270
+C3       10uF           0805          SparkFun-Capacitors (2263.85827 2574.64567) R270
+C4       0.1uF          0805          SparkFun-Capacitors (2353.85827 2574.64567) R270
+C5       10pF           0805          SparkFun-Capacitors (2690.74803 2330.7874) R90
+C6       10pF           0805          SparkFun-Capacitors (2880.74803 2327.83465) R90
+C7       20pF           0805          SparkFun-Capacitors (2420 2330)           R270
+C8       20pF           0805          SparkFun-Capacitors (2230 2330)           R270
+C9       0.1uF          0805          SparkFun-Capacitors (1999.2126 1923.14961) R180
+C10      0.1uF          0805          SparkFun-Capacitors (2474.64567 2486.14173) R180
+IC1      LM1117MPX-1.8  SOT223        lm1117              (2050.62992 2488.11024) R180
+L1                      0603          SparkFun-Coils      (2474.64567 2606.14173) R180
+MJ1                     JP2           jumper              (2036.37795 1716.61417) R180
+MJ2                     JP2           jumper              (2036.37795 1579.6063) R180
+MJ3                     JP2           jumper              (2036.37795 1392.59843) R180
+MJ4                     JP2           jumper              (2036.37795 1215.59055) R180
+MJ_OUT                  JP2           jumper              (1536.37795 2350.55118) R180
+POWER                   JP1           jumper              (1580 2560)           R0
+PVT1     PVT322A        DIP-8         PVT322              (1594.17323 1774.25197) R270
+PVT2     PVT322A        DIP-8         PVT322              (1591.10236 1334.25197) R270
+PVT3     PVT322A        DIP-8         PVT322              (1725.74803 930.7874) R0
+PVT4     PVT322A        DIP-8         PVT322              (2175.74803 930.47244) R0
+Q1       8Mhz           HC49/S        crystal             (2325 2150)           R0
+Q2       32.768Mhz      HC49/S        crystal             (2783.93701 2143.22835) R180
+R1       10k            0603          SparkFun-Resistors  (2900 1610)           R90
+R3       10k            0603          SparkFun-Resistors  (2038.58268 2221.9685) R270
+R4       30             0603          SparkFun-Resistors  (1281.88976 1618.0315) R90
+R5       30             0603          SparkFun-Resistors  (1282.20472 1168.0315) R90
+R6       30             0603          SparkFun-Resistors  (1881.9685 622.51969) R180
+R7       30             0603          SparkFun-Resistors  (2331.9685 622.83465) R180
+ST-LINK                 JP1           jumper              (2580 900)            R90
+SW1                     TACT_PANA-EVQ adafruit            (1911.65354 2058.11024) R0
+U$1      STM32F103C8    LQFP48-7X7    stm32               (2601.88976 1610.62992) R270
+UART                    JP1           jumper              (2580 1090)           R270
