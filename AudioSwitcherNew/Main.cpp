@@ -14,8 +14,8 @@ using namespace Init;
 
 
 void Reader(const volatile uint16_t* buffer, Channel** channels, uint8_t channelsCount);
-std::function<void()> ReaderHandler;
-std::function<void()> SwitcherHandler;
+std::function<void()> ReaderHandler;//method that starts when reading ADC values
+std::function<void()> SwitcherHandler;//method that starts at the end of the measurement cycle
 
 int main()
 {
@@ -30,7 +30,7 @@ int main()
 	const uint8_t channelsCount = 2; //channels count
 	Channel* channels[channelsCount];
 	volatile uint16_t ADCBuffer[channelsCount];
-	const uint8_t countOfIterationsForSwitch = 5; //count of detection needed for switch
+	const uint8_t countOfIterationsForSwitch = 3; //count of detection needed for switch
 	const uint8_t ADCChannels[] = { ADC_Channel_3, ADC_Channel_4, ADC_Channel_5, ADC_Channel_6 }; //input channels
 	const uint16_t rellayPins[] = { GPIO_Pin_7, GPIO_Pin_6, ADC_Channel_5, GPIO_Pin_15 };//pins which commutation audio channel to output
 	const uint8_t ADCSampleTime = ADC_SampleTime_239Cycles5;//ADC sample time, bigger - better
@@ -43,6 +43,8 @@ int main()
 	USART::InitUSART();
 #endif
 	
+	
+	//calculate the timer frequency counting
 	uint32_t lcm = 1;
 	for (int i = 0; i < channelsCount; i++)
 		lcm = Math::LCM(lcm, measurementFrequencies[i]);
@@ -62,6 +64,7 @@ int main()
 			GPIOB);
 	}
 	
+	//periph init
 	PeriphInit::InitGPIO(channels, channelsCount);
 	PeriphInit::ADC_DMAInit(channels, usingDMAPeriph, usingDMA, usingADCPeriph, usingADC, (uint32_t)ADCBuffer, channelsCount);
 	PeriphInit::InitTimers(lcm, measurementsDuration);
@@ -78,6 +81,7 @@ int main()
 }
 
 
+//Read values from ADC
 void Reader(const volatile uint16_t* buffer, Channel** channels, uint8_t channelsCount)
 {
 	static uint16_t currentPos = 0;

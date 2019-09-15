@@ -4,7 +4,7 @@
 namespace Models
 {
 	
-	// Наименьшее общее кратное
+	// Least Common Multiple
 	uint32_t Math::LCM(uint32_t n1, uint32_t n2) 
 	{ 
 		uint32_t max = n1 > n2 ? n1 : n2;

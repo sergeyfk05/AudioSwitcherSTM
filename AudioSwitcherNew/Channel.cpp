@@ -21,6 +21,7 @@ namespace Models
 		delete MeasurementsBuffer;
 	}
 
+	//method which write value to buffer
 	void Channel::WriteMeasurement(uint8_t value)
 	{
 		if (skipped < SkipCoef)
@@ -33,11 +34,13 @@ namespace Models
 		MeasurementsBuffer[currentPos++] = value;
 		currentPos %= MeasurementsBufferLength;
 	}
+	//get start position in buffer arrayy
 	uint32_t Channel::GetCurrentPos()
 	{
 		return currentPos;
 	}
 
+	
 	GPIO_TypeDef* Channel::GetGPIOGroup()
 	{
 		return GPIOGroup;

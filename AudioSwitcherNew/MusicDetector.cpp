@@ -24,6 +24,8 @@ namespace Models
 		delete history;
 	}
 	
+	
+	//method which checks whether this is music
 	bool MusicDetector::isMusic(Channel* ch, bool isActive)
 	{
 		uint16_t countOfZero = 0;
@@ -40,19 +42,22 @@ namespace Models
 			}
 		}
 		
+		//calculate avarage value
 		avarage /= ch->MeasurementsBufferLength;		
 
+		
+		//return the result
 		return countOfZero > MinCountOfZeroValue &&  (isActive ? avarage > MaxAvarageForActiveNoise : avarage > MaxAvarageForNoise);
 	}
 	
 	void MusicDetector::CheckAndSwitch()
 	{
 		
-		//ведем историю результатов проверки на музыку
 		static uint8_t currentPos = 0;
 		for (uint8_t i = 0; i < channelsCount; i++, ++currentPos %= countOfIterationsForSwitch)
 		{
 			
+			//the history of isMusic() results
 			history[currentPos][i] = isMusic(channels[i], statuses[i]);
 #if DEBUG1 == 1
 			
@@ -73,9 +78,9 @@ namespace Models
 
 		}
 		
-		//смоттрим достаточно ли одинаковых результатов дл€ изменени€ состо€ни€ и измен€ем
 		for(uint8_t i = 0 ; i < channelsCount ; i++)
 		{
+			//if count of consecutive same results of isMusic() are enought switch channel state
 			uint8_t isChangable = 0;
 			for (uint8_t y = 0; y < countOfIterationsForSwitch; y++)
 			{
@@ -88,7 +93,7 @@ namespace Models
 		}
 		
 		
-		//вкл/выкл реле
+		//turn on/off the audio-rellay
 		bool isSelected = false;
 		for (uint8_t i = 0; i < channelsCount; i++)
 		{
@@ -103,6 +108,7 @@ namespace Models
 			}
 		}
 		
+		//turn on/off the LED oe/and Amplifier if enabled
 #if USE_LED == 1 || USE_AMP == 1
 		if (isSelected)
 		{
