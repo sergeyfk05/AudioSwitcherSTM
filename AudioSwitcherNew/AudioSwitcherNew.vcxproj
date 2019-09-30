@@ -65,6 +65,7 @@
   </ImportGroup>
   <ItemGroup>
     <ClCompile Include="Channel.cpp" />
+    <ClCompile Include="IndicatorsProvider.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MyMath.cpp" />
     <ClCompile Include="MusicDetector.cpp" />
@@ -73,6 +74,8 @@
     <ClCompile Include="system_stm32f10x.c" />
     <ClCompile Include="USART.cpp" />
     <ClInclude Include="Channel.h" />
+    <ClInclude Include="IIndicators.h" />
+    <ClInclude Include="IndicatorsProvider.h" />
     <ClInclude Include="MusicDetector.h" />
     <ClInclude Include="MyMath.h" />
     <ClInclude Include="PeriphInit.h" />

@@ -11,28 +11,11 @@ extern "C" {
 	namespace Models
 	{
 	
-		struct Rellay
-		{
-		public:
-			Rellay(GPIO_TypeDef* gPIOGproup, uint16_t pin)
-				: Pin(pin)
-			{
-				GPIOGroup = gPIOGproup;
-			}
-			const uint16_t Pin;
-			GPIO_TypeDef* GetGPIOGroup()  const
-			{
-				return GPIOGroup;
-			}
-		private:
-			GPIO_TypeDef* GPIOGroup;
-		};
-	
 		class Channel
 		{
 		
 		public:
-			Channel(uint8_t ADCCh, uint8_t pin, GPIO_TypeDef* gPIOGroup, uint8_t ADCST, uint16_t MBL, uint32_t MF, uint8_t SC, uint8_t relayPin, GPIO_TypeDef* relayGPIOGroup);
+			Channel(uint8_t ADCCh, uint8_t pin, GPIO_TypeDef* gPIOGroup, uint8_t ADCST, uint16_t MBL, uint32_t MF, uint8_t SC, uint8_t SWId);
 		
 			~Channel();
 			const uint8_t ADCChannel;
@@ -40,7 +23,7 @@ extern "C" {
 			const uint16_t MeasurementsBufferLength;
 			uint8_t* MeasurementsBuffer;
 			const uint16_t Pin;
-			const Rellay rellay;
+			const uint8_t switcherId;
 			const uint32_t MeasurementFrequency;
 			const uint8_t SkipCoef;
 			void WriteMeasurement(uint8_t value);

@@ -6,10 +6,13 @@
 #include "PeriphInit.h"
 #include "USART.h"
 #include <functional>
+#include "IIndicators.h"
+#include "IndicatorsProvider.h"
 
 
 using namespace Models;
 using namespace Init;
+using namespace Periph;
 
 
 
@@ -69,8 +72,10 @@ int main()
 	PeriphInit::ADC_DMAInit(channels, usingDMAPeriph, usingDMA, usingADCPeriph, usingADC, (uint32_t)ADCBuffer, channelsCount);
 	PeriphInit::InitTimers(lcm, measurementsDuration);
 	
-	ReaderHandler = [=, &channels, &ADCBuffer]() {Reader(ADCBuffer, channels, channelsCount); };	
-	MusicDetector* detector = new MusicDetector(channels, countOfIterationsForSwitch, channelsCount);
+	ReaderHandler = [=, &channels, &ADCBuffer]() {Reader(ADCBuffer, channels, channelsCount); };
+	
+	IIndicators* ind = new  IndicatorsProvider(LED_GPIO_PERIPH, LED_GPIO_GROUP, LED_GPIO_PIN, AMP_GPIO_PERIPH, AMP_GPIO_GROUP, AMP_GPIO_PIN);
+	MusicDetector* detector = new MusicDetector(channels, countOfIterationsForSwitch, channelsCount, ind);
 	SwitcherHandler = [=]() {detector->CheckAndSwitch(); };
 	
 	

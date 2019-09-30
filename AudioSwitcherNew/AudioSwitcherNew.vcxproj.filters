@@ -40,6 +40,12 @@
     <Filter Include="Source files\Models">
       <UniqueIdentifier>{05df54fd-b2d7-40c8-ae06-596f924118fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header files\Periph">
+      <UniqueIdentifier>{6f32b57e-6f3f-4ad5-90b3-3b5403463a12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source files\Periph">
+      <UniqueIdentifier>{17e39dc0-9c7b-4567-9547-0de7338d3086}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="system_stm32f10x.c">
@@ -231,6 +237,9 @@
     <ClCompile Include="Settings.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="IndicatorsProvider.cpp">
+      <Filter>Source files\Periph</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PeriphInit.h">
@@ -247,6 +256,12 @@
     </ClInclude>
     <ClInclude Include="USART.h">
       <Filter>Header files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="IndicatorsProvider.h">
+      <Filter>Header files\Periph</Filter>
+    </ClInclude>
+    <ClInclude Include="IIndicators.h">
+      <Filter>Header files\Periph</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

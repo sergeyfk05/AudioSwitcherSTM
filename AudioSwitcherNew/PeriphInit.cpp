@@ -19,28 +19,7 @@ namespace Init
 			GPIO_InitStructure.GPIO_Pin = channels[i]->rellay.Pin;
 			GPIO_Init(channels[i]->rellay.GetGPIOGroup(), &GPIO_InitStructure);
 			GPIO_WriteBit(channels[i]->rellay.GetGPIOGroup(), channels[i]->rellay.Pin, Bit_RESET);
-		}
-	
-	
-#if USE_LED
-		RCC_APB2PeriphClockCmd(LED_GPIO_PERIPH, ENABLE);
-	
-		GPIO_InitStructure.GPIO_Pin = LED_GPIO_PIN;
-		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-		GPIO_Init(LED_GPIO_GROUP, &GPIO_InitStructure);
-		GPIO_WriteBit(LED_GPIO_GROUP, LED_GPIO_PIN, Bit_RESET);
-#endif
-#if USE_AMP
-		RCC_APB2PeriphClockCmd(AMP_GPIO_PERIPH, ENABLE);
-	
-		GPIO_InitStructure.GPIO_Pin = AMP_GPIO_PIN;
-		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-		GPIO_Init(AMP_GPIO_GROUP, &GPIO_InitStructure);
-		GPIO_WriteBit(AMP_GPIO_GROUP, AMP_GPIO_PIN, Bit_RESET);
-#endif
-	
+		}	
 	}
 	void PeriphInit::InitHSI()
 	{

@@ -4,7 +4,7 @@
 namespace Models
 {
 
-	Channel::Channel(uint8_t ADCCh, uint8_t pin, GPIO_TypeDef* gPIOGroup, uint8_t ADCST, uint16_t MBL, uint32_t MF, uint8_t SC, uint8_t relayPin, GPIO_TypeDef* relayGPIOGroup)
+	Channel::Channel(uint8_t ADCCh, uint8_t pin, GPIO_TypeDef* gPIOGroup, uint8_t ADCST, uint16_t MBL, uint32_t MF, uint8_t SC, uint8_t SWId)
 		: ADCChannel(ADCCh)
 		, Pin(pin)
 		, GPIOGroup(gPIOGroup)
@@ -13,7 +13,7 @@ namespace Models
 		, MeasurementFrequency(MF)
 		, MeasurementsBuffer((uint8_t*)malloc(sizeof(uint8_t) * MBL))
 		, SkipCoef(SC)
-		, rellay(relayGPIOGroup, relayPin)
+		, switcherId(SWId)
 	{
 	}
 	Channel::~Channel()
