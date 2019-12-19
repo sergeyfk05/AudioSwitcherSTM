@@ -57,14 +57,14 @@ int main()
 		uint32_t bufferLength = measurementFrequencies[i] * measurementsDuration / 1000;
 	
 		channels[i] = new Channel(ADCChannels[i],
-			0x0001 << ADCChannels[i], 
 			GPIOA,
+			0x0001 << ADCChannels[i], 
 			ADCSampleTime,
 			bufferLength,
 			measurementFrequencies[i], 
 			lcm / measurementFrequencies[i],
-			rellayPins[i],
-			GPIOB);
+			GPIOB,
+			rellayPins[i]);
 	}
 	
 	//periph init

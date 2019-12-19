@@ -101,11 +101,11 @@ namespace Models
 			if ((!isSelected) && (statuses[i]))
 			{
 				isSelected = true;
-				GPIO_WriteBit(channels[i]->rellay.GetGPIOGroup(), channels[i]->rellay.Pin, Bit_SET);
+				channels[i]->GetSwitcher()->SetStatus(ChannelStatus::Open);
 			}
 			else
 			{
-				GPIO_WriteBit(channels[i]->rellay.GetGPIOGroup(), channels[i]->rellay.Pin, Bit_RESET);
+				channels[i]->GetSwitcher()->SetStatus(ChannelStatus::Close);
 			}
 		}
 		

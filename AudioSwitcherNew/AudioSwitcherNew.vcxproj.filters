@@ -240,6 +240,9 @@
     <ClCompile Include="IndicatorsProvider.cpp">
       <Filter>Source files\Periph</Filter>
     </ClCompile>
+    <ClCompile Include="ChannelSwitcher.cpp">
+      <Filter>Source files\Models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PeriphInit.h">
@@ -262,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="IIndicators.h">
       <Filter>Header files\Periph</Filter>
+    </ClInclude>
+    <ClInclude Include="ChannelSwitcher.h">
+      <Filter>Header files\Models</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

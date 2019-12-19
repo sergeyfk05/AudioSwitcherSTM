@@ -10,16 +10,6 @@ namespace Init
 		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);	
 		//тактирование портов включения реле
 		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
-	
-		GPIO_InitTypeDef GPIO_InitStructure;
-		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-		for (uint8_t i = 0; i < channelsCount; i++)
-		{
-			GPIO_InitStructure.GPIO_Pin = channels[i]->rellay.Pin;
-			GPIO_Init(channels[i]->rellay.GetGPIOGroup(), &GPIO_InitStructure);
-			GPIO_WriteBit(channels[i]->rellay.GetGPIOGroup(), channels[i]->rellay.Pin, Bit_RESET);
-		}	
 	}
 	void PeriphInit::InitHSI()
 	{
