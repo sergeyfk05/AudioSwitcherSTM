@@ -65,6 +65,8 @@
   </ImportGroup>
   <ItemGroup>
     <ClCompile Include="Channel.cpp" />
+    <ClCompile Include="ChannelSwitcher.cpp" />
+    <ClCompile Include="IndicatorsProvider.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MyMath.cpp" />
     <ClCompile Include="MusicDetector.cpp" />
@@ -73,9 +75,12 @@
     <ClCompile Include="system_stm32f10x.c" />
     <ClCompile Include="USART.cpp" />
     <ClInclude Include="Channel.h" />
+    <ClInclude Include="IIndicators.h" />
+    <ClInclude Include="IndicatorsProvider.h" />
     <ClInclude Include="MusicDetector.h" />
     <ClInclude Include="MyMath.h" />
     <ClInclude Include="PeriphInit.h" />
+    <ClInclude Include="ChannelSwitcher.h" />
     <ClInclude Include="USART.h" />
     <None Include="stm32.props" />
     <ClCompile Include="$(BSP_ROOT)\STM32F1xxxx\StartupFiles\startup_stm32f103xb.c" />

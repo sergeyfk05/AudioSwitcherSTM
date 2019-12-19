@@ -5,15 +5,16 @@
 
 namespace Models
 {
-	MusicDetector::MusicDetector(Channel* _channels[], uint8_t _countOfIterationsForSwitch, uint8_t _channelsCount)
+	MusicDetector::MusicDetector(Channel* _channels[], uint8_t _countOfIterationsForSwitch, uint8_t _channelsCount, IIndicators* _indicators)
 		: countOfIterationsForSwitch(_countOfIterationsForSwitch)
 		, channelsCount(_channelsCount)
 	{
+		indicators = _indicators;
 		channels = _channels;
-				statuses = (bool*)calloc(sizeof(bool), channelsCount);
-				history = (bool**)calloc(sizeof(bool*), countOfIterationsForSwitch);
-				for (uint8_t i = 0; i < countOfIterationsForSwitch; i++)
-					history[i] = (bool*)calloc(sizeof(bool), channelsCount);
+		statuses = (bool*)calloc(sizeof(bool), channelsCount);
+		history = (bool**)calloc(sizeof(bool*), countOfIterationsForSwitch);
+		for (uint8_t i = 0; i < countOfIterationsForSwitch; i++)
+			history[i] = (bool*)calloc(sizeof(bool), channelsCount);
 	}
 	MusicDetector::~MusicDetector()
 	{
@@ -78,7 +79,7 @@ namespace Models
 
 		}
 		
-		for(uint8_t i = 0 ; i < channelsCount ; i++)
+		for (uint8_t i = 0; i < channelsCount; i++)
 		{
 			//if count of consecutive same results of isMusic() are enought switch channel state
 			uint8_t isChangable = 0;
@@ -100,35 +101,24 @@ namespace Models
 			if ((!isSelected) && (statuses[i]))
 			{
 				isSelected = true;
-				GPIO_WriteBit(channels[i]->rellay.GetGPIOGroup(), channels[i]->rellay.Pin, Bit_SET);
+				channels[i]->GetSwitcher()->SetStatus(ChannelStatus::Open);
 			}
 			else
 			{
-				GPIO_WriteBit(channels[i]->rellay.GetGPIOGroup(), channels[i]->rellay.Pin, Bit_RESET);
+				channels[i]->GetSwitcher()->SetStatus(ChannelStatus::Close);
 			}
 		}
 		
 		//turn on/off the LED oe/and Amplifier if enabled
-#if USE_LED == 1 || USE_AMP == 1
-		if (isSelected)
+		if(isSelected)
 		{
-#if USE_LED
-			GPIO_WriteBit(LED_GPIO_GROUP, LED_GPIO_PIN, Bit_SET);
-#endif
-#if USE_AMP
-			GPIO_WriteBit(AMP_GPIO_GROUP, AMP_GPIO_PIN, Bit_SET);
-#endif
+			indicators->LEDWriteState(true);
+			indicators->AMPWriteState(true);
 		}
 		else
 		{
-#if USE_LED
-			GPIO_WriteBit(LED_GPIO_GROUP, LED_GPIO_PIN, Bit_RESET);
-#endif
-#if USE_AMP
-			GPIO_WriteBit(AMP_GPIO_GROUP, AMP_GPIO_PIN, Bit_RESET);
-#endif
+			indicators->LEDWriteState(false);
+			indicators->AMPWriteState(false);
 		}
-#endif
-
 	}
 }
