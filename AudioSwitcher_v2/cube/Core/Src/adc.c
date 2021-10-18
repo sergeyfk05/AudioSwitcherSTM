@@ -21,7 +21,7 @@
 #include "adc.h"
 
 /* USER CODE BEGIN 0 */
-extern volatile uint16_t adc_buffer[8];
+
 /* USER CODE END 0 */
 
 ADC_HandleTypeDef hadc1;
@@ -131,9 +131,7 @@ void MX_ADC1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN ADC1_Init 2 */
-  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_buffer, 8);
-  HAL_ADC_Start(&hadc1);
-  //HAL_ADCEx_Calibration_Start(&hadc1);
+
   /* USER CODE END ADC1_Init 2 */
 
 }

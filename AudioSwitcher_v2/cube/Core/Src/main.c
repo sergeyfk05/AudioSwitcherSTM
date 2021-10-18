@@ -27,18 +27,12 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <stdio.h>
-#include <string.h>
-#include <AudioAnalyzer/Analyzer.h>
-#include <AudioSwitcher/SimpleAudioSwitcher.h>
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-volatile uint16_t adc_buffer[8];
-#define CHANNELS_COUNT (4)
-#define AMP_ON() 		(HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET))
-#define AMP_OFF() 		(HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET))
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -47,23 +41,7 @@ volatile uint16_t adc_buffer[8];
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-AudioSwitcher::SimpleAudioSwitcher sw1(GPIOA, GPIO_PIN_11);
-AudioSwitcher::SimpleAudioSwitcher sw2(GPIOA, GPIO_PIN_12);
-AudioSwitcher::SimpleAudioSwitcher sw3(GPIOB, GPIO_PIN_9);
-AudioSwitcher::SimpleAudioSwitcher sw4(GPIOC, GPIO_PIN_15);
 
-AudioAnalyzer::Analyzer analyzer1(&adc_buffer[0], &adc_buffer[1]);
-AudioAnalyzer::Analyzer analyzer2(&adc_buffer[2], &adc_buffer[3]);
-AudioAnalyzer::Analyzer analyzer3(&adc_buffer[4], &adc_buffer[5]);
-AudioAnalyzer::Analyzer analyzer4(&adc_buffer[6], &adc_buffer[7]);
-
-struct Channel
-{
-	AudioSwitcher::SimpleAudioSwitcher* switcher;
-	AudioAnalyzer::Analyzer* analyzer;
-};
-
-Channel channels[CHANNELS_COUNT] = {{&sw1, &analyzer1}, {&sw2, &analyzer2}, {&sw3, &analyzer3}, {&sw4, &analyzer4}};
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -80,14 +58,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-/* USER CODE BEGIN 0 */
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
-{
-	analyzer1.UpdateData();
-	analyzer2.UpdateData();
-	analyzer3.UpdateData();
-	analyzer4.UpdateData();
-}
+
 /* USER CODE END 0 */
 
 /**
@@ -124,51 +95,14 @@ int main(void)
   MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
 
-  uint32_t last_tick = HAL_GetTick();
   /* USER CODE END 2 */
-HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	bool amp_state = false;
   while (1)
   {
-	  HAL_IWDG_Refresh(&hiwdg);
     /* USER CODE END WHILE */
-	  if(HAL_GetTick() - last_tick > 5)
-	  {
-		  last_tick = HAL_GetTick();
-		  uint8_t ch_buf[100];
-		  sprintf(reinterpret_cast<char*>(ch_buf), "$%d %d %d;", (amp_state ? 4000 : 0), adc_buffer[0], adc_buffer[1]);
-		  HAL_UART_Transmit_DMA(&huart1, ch_buf, strlen(reinterpret_cast<char*>(ch_buf)));
-	  }
 
-	  amp_state = false;
-	  for(uint8_t i = 0; i < CHANNELS_COUNT; i++)
-	  {
-		  if(channels[i].analyzer->IsAudio())
-		  {
-			  for(uint8_t y = i + 1; y < CHANNELS_COUNT; y++)
-			  {
-				  channels[y].switcher->SetCommutationState(false);
-			  }
-			  channels[i].switcher->SetCommutationState(true);
-			  amp_state = true;
-			  break;
-		  }
-		  else
-		  {
-			  channels[i].switcher->SetCommutationState(false);
-		  }
-	  }
-
-	  if(amp_state)
-	  {
-		  AMP_ON();
-	  }
-	  else
-	  {
-		  AMP_OFF();
-	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
