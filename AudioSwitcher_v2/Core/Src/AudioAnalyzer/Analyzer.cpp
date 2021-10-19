@@ -65,9 +65,14 @@ void AudioAnalyzer::Analyzer::UpdateData()
 		//check music
 		for(uint8_t i = 0; i < 2; i++)
 		{
-			if(ch_info[i].GetMean() > 150)
+			if(ch_info[i].min > 35)
 			{
-				if(ch_info[i].min <= 50)
+				continue;
+			}
+
+			if(ch_info[i].GetMean() > 35)
+			{
+				if(ch_info[i].min <= 2)
 				{
 					buf = true;
 					break;
@@ -75,7 +80,7 @@ void AudioAnalyzer::Analyzer::UpdateData()
 			}
 			else
 			{
-				if(ch_info[i].GetDelta() > 15)
+				if(ch_info[i].GetDelta() > 20)
 				{
 					buf = true;
 					break;
