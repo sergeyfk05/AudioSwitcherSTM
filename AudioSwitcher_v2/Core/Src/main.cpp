@@ -140,7 +140,8 @@ HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
 	  {
 		  last_tick = HAL_GetTick();
 		  uint8_t ch_buf[100];
-		  sprintf(reinterpret_cast<char*>(ch_buf), "$%u %u %u;", (amp_state ? 200 : 10), (uint16_t)((analyzer1.last_freq[0] + analyzer1.last_freq[1]) / 2), adc_buffer[0]);
+		  //(amp_state ? 200 : 10)
+		  sprintf(reinterpret_cast<char*>(ch_buf), "$%u %u %u;", analyzer1.last_freq[0],  analyzer1.last_freq[1], adc_buffer[0]);
 		  HAL_UART_Transmit_DMA(&huart1, ch_buf, strlen(reinterpret_cast<char*>(ch_buf)));
 	  }
 

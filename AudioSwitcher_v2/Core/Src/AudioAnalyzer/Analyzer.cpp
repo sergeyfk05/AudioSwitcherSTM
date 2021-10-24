@@ -104,40 +104,65 @@ uint16_t AudioAnalyzer::Analyzer::ChannelData::GetZeroValueDelta(uint16_t accura
 
 }
 
+enum status{
+	find_first,
+	leave_peak,
+	find_peak
+
+};
+
+
 uint16_t AudioAnalyzer::Analyzer::ChannelData::GetMaxValueDelta(float accuracity)
 {
 	uint16_t i = 0;
 	uint16_t last_max;
 	uint16_t min_l = UINT16_MAX;
 	uint16_t max_l = 0;
+	status st = find_first;
 
-	//find first max
+
 	for(; i <= adc_buffer_index; i++)
 	{
-		if(adc_buffer[i] >= max * accuracity)
+		switch(st)
 		{
-			last_max = i;
+		case find_first:
+		{
+			if(adc_buffer[i] >= max * accuracity)
+			{
+				last_max = i;
+				st = leave_peak;
+			}
 			break;
 		}
-	}
 
-
-	for(; i <= adc_buffer_index; i++)
-	{
-		if(adc_buffer[i] >= max * accuracity)
+		case leave_peak:
 		{
-			if((i - last_max) < min_l)
+			if(adc_buffer[i] < max * accuracity)
 			{
-				min_l = i - last_max;
+				st = find_peak;
 			}
+			break;
+		}
 
-
-			if((i - last_max) > max_l)
+		case find_peak:
+		{
+			if(adc_buffer[i] >= max * accuracity)
 			{
-				max_l = i - last_max;
-			}
+				if((i - last_max) < min_l)
+				{
+					min_l = i - last_max;
+				}
 
-			last_max  = i;
+
+				if((i - last_max) > max_l)
+				{
+					max_l = i - last_max;
+				}
+
+				last_max  = i;
+				st = leave_peak;
+			}
+		}
 		}
 	}
 
@@ -153,53 +178,23 @@ void AudioAnalyzer::Analyzer::UpdateData()
 
 	if((ch_info[0].adc_meas_count >= SEGMENT_ADC_MEAS_COUNT) || (ch_info[1].adc_meas_count >= SEGMENT_ADC_MEAS_COUNT))
 	{
-		//check music
-		for(uint8_t i = 0; i < 2; i++)
+		if(ch_info[0].GetDelta() > 30 && ch_info[1].GetDelta() > 30)
 		{
-			if((ch_info[i].GetMean() >= 0) && (ch_info[i].GetMean() <= 65))
+			if((abs(ch_info[0].GetMaxValueDelta() - last_freq[0]) > 3) && (abs(ch_info[1].GetMaxValueDelta() - last_freq[1]) > 3))
 			{
-				if(ch_info[i].GetDelta() >= 30)
-				{
-					buf[i] = true;
-				}
+				buf[0] = true;
+				buf[1] = true;
 			}
-			else
+
+
+			last_freq[0] = ch_info[0].GetMaxValueDelta();
+			last_freq[1] = ch_info[1].GetMaxValueDelta();
+			/*if(abs(last_freq[0] - last_freq[1]) > 15)
 			{
-				if(ch_info[i].min < 15)
-				{
-					buf[i] = true;
-				}
-			}
+				buf[0] = true;
+					buf[1] = true;
+			}*/
 		}
-
-		if((ch_info[0].GetDelta() <= 15) || (ch_info[1].GetDelta() <= 15))
-		{
-			buf[0] = false;
-			buf[1] = false;
-		}
-
-		/*if(abs(ch_info[0].GetMean() - ch_info[1].GetMean()) >= ((ch_info[0].GetDelta() + ch_info[1].GetDelta())/2))
-		{
-			buf[0] = false;
-			buf[1] = false;
-		}*/
-
-		if((ch_info[0].GetDelta() <= 125) || (ch_info[1].GetDelta() <= 125))
-				{
-		last_freq[0] = ch_info[0].GetMaxValueDelta();
-		last_freq[1] = ch_info[1].GetMaxValueDelta();
-		if(last_freq[0] < 20)
-		{
-			if(last_freq[1] < 20)
-			{
-				//if(abs(last_freq[0] - last_freq[1]) < 10)
-				{
-					buf[0] = false;
-					buf[1] = false;
-				}
-			}
-		}
-				}
 
 		ch_info[0].Reset();
 		ch_info[1].Reset();
@@ -215,6 +210,10 @@ void AudioAnalyzer::Analyzer::UpdateData()
 		}
 		else
 		{
+			if(good_segments_count < MIN_SEGMENTS_FOR_AUDIO)
+			{
+				good_segments_count = 0;
+			}
 			if(good_segments_count > 0)
 			{
 				good_segments_count--;
