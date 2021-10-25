@@ -86,9 +86,9 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
 
 	analyzer1.UpdateData();
-	//analyzer2.UpdateData();
-	//analyzer3.UpdateData();
-	//analyzer4.UpdateData();
+	analyzer2.UpdateData();
+	analyzer3.UpdateData();
+	analyzer4.UpdateData();
 }
 /* USER CODE END 0 */
 
