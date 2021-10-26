@@ -131,6 +131,12 @@ int main(void)
 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+AMP_ON();
+/*while(1){
+
+	sw3.SetCommutationState(true);
+	HAL_IWDG_Refresh(&hiwdg);
+}*/
 	bool amp_state = false;
   while (1)
   {
@@ -141,7 +147,7 @@ HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
 		  last_tick = HAL_GetTick();
 		  uint8_t ch_buf[100];
 		  //(amp_state ? 200 : 10)
-		  sprintf(reinterpret_cast<char*>(ch_buf), "$%u %u %u;", analyzer1.last_freq[0],  analyzer1.last_freq[1], adc_buffer[0]);
+		  sprintf(reinterpret_cast<char*>(ch_buf), "$%u %u %u;", analyzer1.last_freq[0],  adc_buffer[2], adc_buffer[4]);
 		  HAL_UART_Transmit_DMA(&huart1, ch_buf, strlen(reinterpret_cast<char*>(ch_buf)));
 	  }
 

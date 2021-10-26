@@ -42,11 +42,6 @@ void AudioAnalyzer::Analyzer::ChannelData::Update()
 	adc_meas_count++;
 	adc_meas_sum += *adc_source;
 
-	if(((uint32_t)adc_source != 0x200000b0) && ((uint32_t)adc_source != 0x200000b2))
-	{
-		return;
-	}
-
 	if(adc_buffer_index < SEGMENT_ADC_MEAS_COUNT - 1)
 	{
 		adc_buffer[adc_buffer_index++] = *adc_source;
@@ -180,7 +175,7 @@ void AudioAnalyzer::Analyzer::UpdateData()
 	{
 		if(ch_info[0].GetDelta() > 30 && ch_info[1].GetDelta() > 30)
 		{
-			if((abs(ch_info[0].GetMaxValueDelta() - last_freq[0]) > 3) && (abs(ch_info[1].GetMaxValueDelta() - last_freq[1]) > 3))
+			if((abs(ch_info[0].GetMaxValueDelta() - last_freq[0]) > 1) && (abs(ch_info[1].GetMaxValueDelta() - last_freq[1]) > 1))
 			{
 				buf[0] = true;
 				buf[1] = true;
@@ -201,7 +196,7 @@ void AudioAnalyzer::Analyzer::UpdateData()
 
 		if(buf[0] && buf[1])
 		{
-			if(good_segments_count < MIN_SEGMENTS_FOR_AUDIO*5)
+			if(good_segments_count < MIN_SEGMENTS_FOR_AUDIO*25)
 			{
 				good_segments_count++;
 				if(good_segments_count == MIN_SEGMENTS_FOR_AUDIO)
