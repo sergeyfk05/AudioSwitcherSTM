@@ -1,31 +1,13 @@
-Output: Gerber Files
-Type  : Gerber
-From  : Variant [[No Variations]] of Project [Schematic.PrjPcb]
-   Generated File[PCB.GTO]
-   Generated File[PCB.GTS]
-   Generated File[PCB.GTL]
-   Generated File[PCB.GBL]
-   Generated File[PCB.GBS]
-   Generated File[PCB.GBO]
-   Generated File[PCB.GM1]
-   Generated File[PCB.GM2]
-   Generated File[PCB.GM3]
-   Generated File[PCB.GM5]
-   Generated File[PCB.GM6]
-   Generated File[PCB.GM13]
-   Generated File[PCB.GM15]
-   Generated File[PCB.GM16]
-   Generated File[PCB.GM20]
-   Generated File[PCB.GM21]
-   Generated File[PCB.GM23]
-   Generated File[PCB.GM24]
-   Generated File[PCB.GKO]
-   Generated File[PCB.RUL]
-   Generated File[PCB.EXTREP]
-   Generated File[PCB.REP]
+Output: NC Drill Files
+Type  : NC Drill
+From  : Project [Schematic.PrjPcb]
+   Generated File[PCB-RoundHoles.TXT]
+   Generated File[PCB-SlotHoles.TXT]
+   Generated File[PCB.LDP]
+   Generated File[PCB.DRR]
 
 
-Files Generated   : 22
+Files Generated   : 4
 Documents Printed : 0
 
-Finished Output Generation At 20:36:35 On 18.09.2021
+Finished Output Generation At 10:00:24 On 30.10.2021

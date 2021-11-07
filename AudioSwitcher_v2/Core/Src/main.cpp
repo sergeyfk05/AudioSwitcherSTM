@@ -152,7 +152,33 @@ AMP_ON();
 	  }
 
 	  amp_state = false;
+	  int8_t active_ch = -1;
 	  for(uint8_t i = 0; i < CHANNELS_COUNT; i++)
+	  {
+		  if(channels[i].analyzer->IsAudio())
+		  {
+			  amp_state = true;
+			  active_ch = i;
+			  break;
+		  }
+	  }
+
+	  if(amp_state)
+	  {
+		  for(uint8_t i = 0; i < CHANNELS_COUNT; i++)
+		  {
+			  channels[i].switcher->SetCommutationState(i == active_ch);
+		  }
+
+		  AMP_ON();
+	  }
+	  else
+	  {
+		  AMP_OFF();
+	  }
+
+
+	  /*for(uint8_t i = 0; i < CHANNELS_COUNT; i++)
 	  {
 		  if(channels[i].analyzer->IsAudio())
 		  {
@@ -177,7 +203,7 @@ AMP_ON();
 	  else
 	  {
 		  AMP_OFF();
-	  }
+	  }*/
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
