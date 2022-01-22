@@ -1,8 +1,8 @@
 #pragma once
 
 #include <stm32g0xx_hal.h>
-#define SEGMENT_ADC_MEAS_COUNT		(150)
-#define MIN_SEGMENTS_FOR_AUDIO		(10)
+#define SEGMENT_ADC_MEAS_COUNT		(335)
+#define MIN_SEGMENTS_FOR_AUDIO		(15)
 
 
 namespace AudioAnalyzer

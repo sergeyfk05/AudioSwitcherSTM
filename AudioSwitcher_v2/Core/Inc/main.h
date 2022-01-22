@@ -54,7 +54,8 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+#define recive_IR_Pin GPIO_PIN_7
+#define recive_IR_GPIO_Port GPIOB
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

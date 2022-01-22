@@ -1,12 +1,12 @@
 /**
   ******************************************************************************
-  * @file    usart.h
+  * @file    tim.h
   * @brief   This file contains all the function prototypes for
-  *          the usart.c file
+  *          the tim.c file
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+  * <h2><center>&copy; Copyright (c) 2022 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
@@ -17,8 +17,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __USART_H__
-#define __USART_H__
+#ifndef __TIM_H__
+#define __TIM_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,13 +31,13 @@ extern "C" {
 
 /* USER CODE END Includes */
 
-extern UART_HandleTypeDef huart1;
+extern TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-void MX_USART1_UART_Init(void);
+void MX_TIM3_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
@@ -47,6 +47,6 @@ void MX_USART1_UART_Init(void);
 }
 #endif
 
-#endif /* __USART_H__ */
+#endif /* __TIM_H__ */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

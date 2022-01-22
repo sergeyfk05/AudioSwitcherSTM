@@ -175,7 +175,7 @@ void AudioAnalyzer::Analyzer::UpdateData()
 	{
 		if(ch_info[0].GetDelta() > 30 && ch_info[1].GetDelta() > 30)
 		{
-			if((abs(ch_info[0].GetMaxValueDelta() - last_freq[0]) > 1) && (abs(ch_info[1].GetMaxValueDelta() - last_freq[1]) > 1))
+			if((abs(ch_info[0].GetMaxValueDelta() - last_freq[0]) > 8) && (abs(ch_info[1].GetMaxValueDelta() - last_freq[1]) > 8))
 			{
 				buf[0] = true;
 				buf[1] = true;
@@ -196,23 +196,24 @@ void AudioAnalyzer::Analyzer::UpdateData()
 
 		if(buf[0] && buf[1])
 		{
-			if(good_segments_count < MIN_SEGMENTS_FOR_AUDIO*25)
+			if(good_segments_count < MIN_SEGMENTS_FOR_AUDIO*4)
 			{
 				good_segments_count++;
 				if(good_segments_count == MIN_SEGMENTS_FOR_AUDIO)
-					good_segments_count = MIN_SEGMENTS_FOR_AUDIO * 2;
+					good_segments_count = MIN_SEGMENTS_FOR_AUDIO * 1.5;
 			}
 		}
 		else
 		{
-			if(good_segments_count < MIN_SEGMENTS_FOR_AUDIO)
-			{
-				good_segments_count = 0;
-			}
 			if(good_segments_count > 0)
 			{
 				good_segments_count--;
 			}
+			if(good_segments_count < MIN_SEGMENTS_FOR_AUDIO)
+			{
+				good_segments_count = 0;
+			}
+
 		}
 	}
 }

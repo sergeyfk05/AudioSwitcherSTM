@@ -19,11 +19,12 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include <IRremote.h>
 #include "adc.h"
 #include "dma.h"
 #include "iwdg.h"
-#include "usart.h"
 #include "gpio.h"
+#include "tim.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -92,10 +93,22 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 }
 /* USER CODE END 0 */
 
+
+
+enum IR : uint32_t
+{
+	Zero = 0x97483bfb,
+	One = 0xe318261b,
+	Two = 0x511dbb,
+	Three = 0xee886d7f,
+	Four = 0x52a3d41f,
+	OK = 0x488f3cbb,
+};
 /**
   * @brief  The application entry point.
   * @retval int
   */
+extern decode_results results;
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -122,7 +135,8 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_ADC1_Init();
-  MX_USART1_UART_Init();
+  MX_TIM3_Init();
+  //MX_USART1_UART_Init();
   MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
 
@@ -131,51 +145,129 @@ int main(void)
 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-AMP_ON();
+AMP_OFF();
 /*while(1){
-
 	sw3.SetCommutationState(true);
 	HAL_IWDG_Refresh(&hiwdg);
 }*/
+	IR curr_mode = IR::OK;
 	bool amp_state = false;
+	  my_enableIRIn();
   while (1)
   {
 	  HAL_IWDG_Refresh(&hiwdg);
+
+	if(my_decode(&results))
+	{
+		switch(results.value)
+		{
+		case IR::OK:
+		case IR::One:
+		case IR::Two:
+		case IR::Three:
+		case IR::Four:
+		case IR::Zero:
+			curr_mode = (IR)results.value;
+			break;
+		}
+		HAL_Delay(300);
+		my_resume();
+	}
+
     /* USER CODE END WHILE */
-	  if(HAL_GetTick() - last_tick > 5)
+	  /*if(HAL_GetTick() - last_tick > 5)
 	  {
 		  last_tick = HAL_GetTick();
 		  uint8_t ch_buf[100];
 		  //(amp_state ? 200 : 10)
 		  sprintf(reinterpret_cast<char*>(ch_buf), "$%u %u %u;", analyzer1.last_freq[0],  adc_buffer[2], adc_buffer[4]);
 		  HAL_UART_Transmit_DMA(&huart1, ch_buf, strlen(reinterpret_cast<char*>(ch_buf)));
-	  }
+	  }*/
 
-	  amp_state = false;
-	  int8_t active_ch = -1;
-	  for(uint8_t i = 0; i < CHANNELS_COUNT; i++)
+
+	  switch(curr_mode)
 	  {
-		  if(channels[i].analyzer->IsAudio())
-		  {
-			  amp_state = true;
-			  active_ch = i;
-			  break;
-		  }
-	  }
-
-	  if(amp_state)
-	  {
-		  for(uint8_t i = 0; i < CHANNELS_COUNT; i++)
-		  {
-			  channels[i].switcher->SetCommutationState(i == active_ch);
-		  }
-
-		  AMP_ON();
-	  }
-	  else
+	  case IR::Zero:
 	  {
 		  AMP_OFF();
+		  break;
 	  }
+
+	  case IR::One:
+	  {
+		  channels[0].switcher->SetCommutationState(true);
+		  channels[1].switcher->SetCommutationState(false);
+		  channels[2].switcher->SetCommutationState(false);
+		  channels[3].switcher->SetCommutationState(false);
+		  AMP_ON();
+		  break;
+	  }
+
+	  case IR::Two:
+	  {
+		  channels[0].switcher->SetCommutationState(false);
+		  channels[1].switcher->SetCommutationState(true);
+		  channels[2].switcher->SetCommutationState(false);
+		  channels[3].switcher->SetCommutationState(false);
+		  AMP_ON();
+		  break;
+	  }
+
+	  case IR::Three:
+	  {
+		  channels[0].switcher->SetCommutationState(false);
+		  channels[1].switcher->SetCommutationState(false);
+		  channels[2].switcher->SetCommutationState(true);
+		  channels[3].switcher->SetCommutationState(false);
+		  AMP_ON();
+		  break;
+	  }
+
+	  case IR::Four:
+	  {
+		  channels[0].switcher->SetCommutationState(false);
+		  channels[1].switcher->SetCommutationState(false);
+		  channels[2].switcher->SetCommutationState(true);
+		  channels[3].switcher->SetCommutationState(false);
+		  AMP_ON();
+		  break;
+	  }
+
+	  case IR::OK:
+	  {
+		  amp_state = false;
+		  int8_t active_ch = -1;
+		  for(uint8_t i = 0; i < CHANNELS_COUNT; i++)
+		  {
+			  if(channels[i].analyzer->IsAudio())
+			  {
+				  amp_state = true;
+				  active_ch = i;
+				  break;
+			  }
+		  }
+
+		  if(amp_state)
+		  {
+			  for(uint8_t i = 0; i < CHANNELS_COUNT; i++)
+			  {
+				  channels[i].switcher->SetCommutationState(i == active_ch);
+			  }
+
+			  AMP_ON();
+		  }
+		  else
+		  {
+			  AMP_OFF();
+		  }
+		  break;
+	  }
+
+
+	  }
+
+
+
 
 
 	  /*for(uint8_t i = 0; i < CHANNELS_COUNT; i++)
